@@ -1,0 +1,153 @@
+%(momento-nuevo un-dia un-mes un-año una-hora un-minuto)
+
+%Ejemplo 1:
+> (momento-nuevo 14 12 2022 13 00)
+((14 12 2022) 13 0)
+
+%Ejemplo 2:
+> (momento-nuevo 23 12 2022 00 01)
+((23 12 2022) 0 1)
+
+%(cita-nueva
+un-texto-descriptivo ; es un string
+un-momento-de-inicio ; es un momento
+un-momento-de-finalización) ; es un momento
+
+%Ejemplo 1:
+> (cita-nueva "Odontologo de Joaquin" momento1 momento2)
+("Odontologo de Joaquin" ((14 12 2022) 13 0) ((14 12 2022) 15 30))
+
+%Ejemplo 2:
+> (cita-nueva "Medico de Valen" momento7 momento8)
+("Medico de Valen" ((15 12 2022) 14 30) ((15 12 2022) 22 10))
+
+%(citas-solapadas? una-cita otra-cita)
+
+%Ejemplo 1:
+> (citas-solapadas cita1 cita2)
+#t
+%Mismo día, horas solapadas.
+
+%Ejemplo 2:
+> (citas-solapadas cita5 cita7)
+#f
+%Caso en el que son diferentes días.
+
+%Ejemplo 3:
+> (citas-solapadas cita3 cita1)
+#f
+%Mismo día, horas no solapadas.
+
+%(citas-iguales? una-cita otra-cita)
+
+%Ejemplo 1:
+> (citas-iguales cita6 cita6)
+#t
+%Citas iguales.
+
+%Ejemplo 2:
+> (citas-iguales cita7 cita2)
+#f
+%Citas desiguales.
+
+%(calendario-nuevo un-nombre)
+
+%Ejemplo 1:
+> (calendario-nuevo "Calendario Junio")
+("Calendario Junio" ())
+
+%Ejemplo 2:
+> (calendario-nuevo "Calendario noviembre")
+("Calendario noviembre" ())
+
+%(calendario-agrega-cita un-calendario una-cita)
+
+%Ejemplo 1:
+> (calendario-agregar-cita Calendario1 cita2)
+("Calendario-Joaquin"
+(("Odontologo de Valen" ((14 12 2022) 13 30) ((14 12 2022) 14 0))
+(("Odontologo de Joaquin" ((14 12 2022) 13 0) ((14 12 2022) 15 30)) 
+("Medico de Joaquin" ((14 12 2022) 16 30) ((14 12 2022) 18 0)))))
+
+%Ejemplo 2:
+> (calendario-agregar-cita Calendario1 cita2)
+("Calendario-Joaquin"
+(("Odontologo de Valen" ((14 12 2022) 13 30) ((14 12 2022) 14 0))
+(("Odontologo de Joaquin" ((14 12 2022) 13 0) ((14 12 2022) 15 30))
+("Medico de Joaquin" ((14 12 2022) 16 30) ((14 12 2022) 18 0)))))
+
+%(calendario-elimina-cita un-calendario una-cita)
+
+%Ejemplo 1:
+> (calendario-elimina-cita Calendario3 cita3)
+("Calendario-Pato" ("Medico de Pato" ((14 12 2022) 13 0) ((14 12 2022) 15 30)))
+%Caso que la cita a eliminar esta en primera posicion.
+
+%Ejemplo 2:
+> (calendario-elimina-cita Calendario2 cita5)
+("Calendario-Valen" ("Odontologo de Valen" ((14 12 2022) 13 30) ((14 12 2022) 14 0)))
+%Caso que la cita a eliminar esta en la posicion n.
+
+%Ejemplo 3:
+> (calendario-elimina-cita Calendario1 cita2)
+("Calendario-Joaquin" ("Odontologo de Joaquin" ((14 12 2022) 13 0) ((14 12 2022) 15 30))
+("Medico de Joaquin" ((14 12 2022) 16 30) ((14 12 2022) 18 0)))
+%Caso que la cita a eliminar no se encuentra en el calendario.
+
+%(calendarios-solapados? un-calendario otro-calendario)
+
+%Ejemplo 1:
+> (calendarios-solapados? Calendario1 Calendario3)
+#t
+%Caso en el que las citas se solapan
+
+%Ejemplo 2:
+> (calendarios-solapados? Calendario3 Calendario4)
+#f
+%Caso en el que las citas no se solapan
+
+%(encuentra-cita-mas-temprana un-calendario un-pred)
+
+%Ejemplo 1:
+> (cita-mas-temprana Calendario2)
+("Odontologo de Valen" ((14 12 2022) 13 30) ((14 12 2022) 14 0))
+
+
+%Ejemplo 2:
+> (cita-mas-temprana Calendario3)
+("Medico de Pato" ((14 12 2022) 13 0) ((14 12 2022) 15 30))
+
+(En este enunciado no entendimos la funcion en su totalidad (especificamente el rol de la funcion un-pred), por ende hicimos la funcion "cita-mas-temprana"
+que devuelve la cita mas temprana (que ocurre primera) dado el calendario pasado como parametro)
+
+%(encuentra-cita-mas-tardia un-calendario un-pred)
+
+%Ejemplo 1:
+> (cita-mas-tardia Calendario1)
+("Medico de Joaquin" ((14 12 2022) 16 30) ((14 12 2022) 18 0))
+
+%Ejemplo 2:
+> (cita-mas-tardia Calendario3)
+("Odontologo de Pato" ((14 12 2022) 16 30) ((14 12 2022) 18 0))
+
+(En este enunciado no entendimos la funcion en su totalidad (especificamente el rol de la funcion un-pred), por ende hicimos la funcion "cita-mas-tardia"
+que devuelve la cita mas tardia (que ocurre ultima) dado el calendario pasado como parametro)
+
+%(calendario-muestra un-calendario)
+
+%Ejemplo 1:
+> (calendario-muestra Calendario2)
+Calendario-Valen
+Odontologo de Valen
+2022-12-14t13:30
+2022-12-14t14:0
+Medico de Valen
+2022-12-15t14:30
+2022-12-15t22:10
+
+%Ejemplo 2:
+> (calendario-muestra Calendario4)
+Calendario-Navidad
+Navidad
+2022-12-23t0:1
+2022-12-24t23:59
